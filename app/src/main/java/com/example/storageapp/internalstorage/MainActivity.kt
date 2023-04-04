@@ -4,9 +4,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.storageapp.databinding.ActivityMainBinding
 import com.example.storageapp.internalstorage.models.InternalStorageImageModel
 import java.io.IOException
+import java.util.UUID
 
 // https://www.youtube.com/watch?v=Gd1jbmZCauQ&list=PLzRDlxbkV34aTdb_HQWApl01b7xaXFj8f&index=3
 
@@ -19,6 +23,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var imageList = arrayListOf<InternalStorageImageModel>()
+
+    private val photoContract = registerForActivityResult(ActivityResultContracts.TakePicturePreview()){
+        val isStored = storeDataInInternalStorage(UUID.randomUUID().toString(), bitmap = it!!)
+        if(isStored){
+            Toast.makeText(this,"Stored Successfully",Toast.LENGTH_LONG).show()
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
