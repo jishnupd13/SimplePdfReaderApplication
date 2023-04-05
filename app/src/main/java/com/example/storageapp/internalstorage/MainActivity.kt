@@ -85,6 +85,7 @@ class MainActivity : AppCompatActivity() {
 
         })
         binding.apply {
+            adapter.setHasStableIds(true)
             recyclerviewImages.adapter = adapter
             recyclerviewImages.itemAnimator = null
             val x = (resources.displayMetrics.density * 2).toInt()
