@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">StorageApp</string>
     <string name="pictures">Pictures</string>
     <string name="to_take_camera_picture">To take camera picture</string>
     <string name="image_in_internal_memory">Image in internal memory</string>

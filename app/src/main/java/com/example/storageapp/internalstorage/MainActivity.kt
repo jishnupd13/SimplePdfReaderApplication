@@ -1,18 +1,25 @@
 package com.example.storageapp.internalstorage
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.transition.TransitionManager
+import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.storageapp.databinding.ActivityMainBinding
+import com.example.storageapp.hide
+import com.example.storageapp.internalstorage.adapters.ImageAdapter
 import com.example.storageapp.internalstorage.models.InternalStorageImageModel
+import com.example.storageapp.internalstorage.utils.SpacingItemDecorator
+import com.example.storageapp.show
 import java.io.IOException
 import java.util.UUID
 
-// https://www.youtube.com/watch?v=Gd1jbmZCauQ&list=PLzRDlxbkV34aTdb_HQWApl01b7xaXFj8f&index=3
+//https://www.youtube.com/watch?v=Gd1jbmZCauQ&list=PLzRDlxbkV34aTdb_HQWApl01b7xaXFj8f&index=3
 
 /**
  * @author Jishnu P Dileep(Jd)
@@ -22,20 +29,118 @@ import java.util.UUID
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var imageList = arrayListOf<InternalStorageImageModel>()
+    private lateinit var adapter: ImageAdapter
+    private var isEnableSelectionMode = false
+    private var selectedItemCount = 0
 
-    private val photoContract = registerForActivityResult(ActivityResultContracts.TakePicturePreview()){
-        val isStored = storeDataInInternalStorage(UUID.randomUUID().toString(), bitmap = it!!)
-        if(isStored){
-            Toast.makeText(this,"Stored Successfully",Toast.LENGTH_LONG).show()
+    private val photoContract =
+        registerForActivityResult(ActivityResultContracts.TakePicturePreview()) {
+            val isStored = storeDataInInternalStorage(UUID.randomUUID().toString(), bitmap = it!!)
+            if (isStored) {
+                Toast.makeText(this, "Stored Successfully", Toast.LENGTH_LONG).show()
+                updateImageList()
+            } else {
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show()
+            }
+
         }
-
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setRecyclerview()
+        setOnClickListeners()
+    }
+
+    private fun setRecyclerview() {
+        adapter =
+            ImageAdapter( onLongClickPressed = { item,position ->
+            if(!isEnableSelectionMode){
+                binding.apply {
+                    layoutOptions.hide()
+                    layoutControls.show()
+                    TransitionManager.beginDelayedTransition(root)
+                    isEnableSelectionMode = true
+                    item.isImageSelected = true
+                    adapter.notifyItemChanged(position)
+                    selectedItemCount++
+                    binding.textSelectedItem.text = if(selectedItemCount==1) "$selectedItemCount item selected" else "$selectedItemCount items selected"
+                }
+            }
+        }, onItemSelected = {item, position ->
+                if(isEnableSelectionMode){
+                    if(item.isImageSelected){
+                        item.isImageSelected = false
+                        adapter.notifyItemChanged(position)
+                        selectedItemCount--
+                        binding.textSelectedItem.text = if(selectedItemCount==1) "$selectedItemCount item selected" else "$selectedItemCount items selected"
+                    }else{
+                        item.isImageSelected = true
+                        adapter.notifyItemChanged(position)
+                        selectedItemCount++
+                        binding.textSelectedItem.text = if(selectedItemCount==1) "$selectedItemCount item selected" else "$selectedItemCount items selected"
+                    }
+                }
+
+        })
+        binding.apply {
+            adapter.setHasStableIds(true)
+            recyclerviewImages.adapter = adapter
+           // recyclerviewImages.itemAnimator = null
+            val x = (resources.displayMetrics.density * 2).toInt()
+            recyclerviewImages.addItemDecoration(SpacingItemDecorator(x))
+            val list = loadImageFilesFromInternalStorage()
+            Log.e("listSize", "${list.size}")
+            adapter.asyncListDiffer.submitList(list)
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setOnClickListeners() {
+        binding.imageCamera.setOnClickListener {
+            photoContract.launch(null)
+        }
+
+        binding.imageCancelSelection.setOnClickListener {
+            isEnableSelectionMode = false
+            binding.apply {
+
+                val list = adapter.asyncListDiffer.currentList
+                list.map { it.isImageSelected = false }
+                adapter.notifyDataSetChanged()
+
+                layoutOptions.show()
+                layoutControls.hide()
+                TransitionManager.beginDelayedTransition(binding.layoutToolBar)
+                selectedItemCount = 0
+                binding.textSelectedItem.text = ""
+            }
+
+
+        }
+
+        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                binding.apply {
+                    if(isEnableSelectionMode){
+                        layoutOptions.show()
+                        layoutControls.hide()
+                        textSelectedItem.text = ""
+                        TransitionManager.beginDelayedTransition(root)
+                        isEnableSelectionMode = false
+                        selectedItemCount = 0
+                    }else{
+                        finish()
+                        overridePendingTransition(0,0)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun updateImageList() {
+        adapter.asyncListDiffer.submitList(loadImageFilesFromInternalStorage())
     }
 
     /**
@@ -51,15 +156,17 @@ class MainActivity : AppCompatActivity() {
      *  @see 'https://stackoverflow.com/questions/21230629/getfilesdir-vs-environment-getdatadirectory#:~:text=public%20File%20getFilesDir%20(),String%2C%20int)%20are%20stored.'
      * */
 
-    private fun loadImageFilesFromInternalStorage():List<InternalStorageImageModel>{
+    private fun loadImageFilesFromInternalStorage(): List<InternalStorageImageModel> {
         val files = filesDir.listFiles()
         return files?.filter {
-            it.canRead() && it.isFile && it.name.endsWith(".jpg")
+            it.canRead() && it.isFile && (it.name.endsWith(".jpg") || it.name.endsWith(".jpeg") || it.name.endsWith(
+                ".png"
+            ))
         }?.map {
             val bytes = it.readBytes()
-            val bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.size)
-            InternalStorageImageModel(it.name,bitmap)
-        }?: listOf()
+            val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+            InternalStorageImageModel(it.name, bitmap)
+        } ?: listOf()
     }
 
     /**
@@ -79,15 +186,15 @@ class MainActivity : AppCompatActivity() {
      *
      * */
 
-    private fun storeDataInInternalStorage(fileName:String,bitmap: Bitmap):Boolean {
-       return try {
-           openFileOutput("$fileName.jpeg", MODE_PRIVATE).use { stream->
-               if(!bitmap.compress(Bitmap.CompressFormat.JPEG,96,stream)){
-                   throw IOException("Unable to store bitmap")
-               }
-           }
-           true
-        }catch (e:IOException){
+    private fun storeDataInInternalStorage(fileName: String, bitmap: Bitmap): Boolean {
+        return try {
+            openFileOutput("$fileName.jpeg", MODE_PRIVATE).use { stream ->
+                if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 96, stream)) {
+                    throw IOException("Unable to store bitmap")
+                }
+            }
+            true
+        } catch (e: IOException) {
             e.stackTrace
             false
         }
@@ -98,10 +205,10 @@ class MainActivity : AppCompatActivity() {
      *   @param name - name of the file
      * */
 
-    private fun deleteImageFromInternalStorage(name:String):Boolean{
+    private fun deleteImageFromInternalStorage(name: String): Boolean {
         return try {
             deleteFile(name)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             false
         }
     }

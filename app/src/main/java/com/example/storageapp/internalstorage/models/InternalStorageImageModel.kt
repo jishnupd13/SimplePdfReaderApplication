@@ -4,5 +4,6 @@ import android.graphics.Bitmap
 
 data class InternalStorageImageModel(
     var name:String,
-    var bitmap: Bitmap
+    var bitmap: Bitmap,
+    var isImageSelected:Boolean = false
 )
