@@ -6,6 +6,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -28,6 +29,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.util.*
+
+//pdf selection - https://stackoverflow.com/questions/31652173/how-to-list-all-pdf-files-in-my-android-device
 
 class ExternalStorageActivity : AppCompatActivity() {
 
@@ -181,6 +184,7 @@ class ExternalStorageActivity : AppCompatActivity() {
 
     private suspend fun loadPhotosFromExternalStorage(): List<PhotosExternalModel> {
         return withContext(Dispatchers.IO) {
+
             val collection = sdk29AndUp {
                 MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
             } ?: MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -244,4 +248,5 @@ class ExternalStorageActivity : AppCompatActivity() {
             }
         }
     }
+
 }
