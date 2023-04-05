@@ -71,9 +71,9 @@ class ImageAdapter(
         }
     }
 
-    /*override fun getItemId(position: Int): Long {
-        return super.getItemId(position)
-    }*/
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
 }
 
 

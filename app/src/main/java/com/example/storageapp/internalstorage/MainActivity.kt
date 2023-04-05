@@ -85,9 +85,8 @@ class MainActivity : AppCompatActivity() {
 
         })
         binding.apply {
-            adapter.setHasStableIds(true)
             recyclerviewImages.adapter = adapter
-           // recyclerviewImages.itemAnimator = null
+            recyclerviewImages.itemAnimator = null
             val x = (resources.displayMetrics.density * 2).toInt()
             recyclerviewImages.addItemDecoration(SpacingItemDecorator(x))
             val list = loadImageFilesFromInternalStorage()
@@ -98,6 +97,24 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun setOnClickListeners() {
+
+
+
+       binding.imgDelete.setOnClickListener {
+           if(adapter.asyncListDiffer.currentList.isNotEmpty()){
+               adapter.asyncListDiffer.currentList.map {
+                   if(it.isImageSelected)
+                       deleteImageFromInternalStorage(it.name)
+               }
+               binding.layoutOptions.show()
+               binding.layoutControls.hide()
+               TransitionManager.beginDelayedTransition(binding.layoutToolBar)
+               updateImageList()
+               isEnableSelectionMode = false
+               selectedItemCount = 0
+           }
+       }
+
         binding.imageCamera.setOnClickListener {
             photoContract.launch(null)
         }
@@ -124,12 +141,17 @@ class MainActivity : AppCompatActivity() {
             override fun handleOnBackPressed() {
                 binding.apply {
                     if(isEnableSelectionMode){
+                        val list = adapter.asyncListDiffer.currentList
+                        list.map { it.isImageSelected = false }
+                        adapter.notifyDataSetChanged()
+
                         layoutOptions.show()
                         layoutControls.hide()
                         textSelectedItem.text = ""
-                        TransitionManager.beginDelayedTransition(root)
+                        TransitionManager.beginDelayedTransition(binding.layoutToolBar)
                         isEnableSelectionMode = false
                         selectedItemCount = 0
+
                     }else{
                         finish()
                         overridePendingTransition(0,0)
