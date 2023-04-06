@@ -14,4 +14,8 @@
     <string name="why_permission_required">Why Permission Required?</string>
     <string name="reason">To Mange your files, allow PDF reader to access your files. Providing permission to this application do not harm your privacy. Without Permission app cannot work smoothly. You should give the permission to go to next step.</string>
     <string name="allow">Allow</string>
+    <string name="settings_icon">Settings Icon</string>
+    <string name="setting_permission">Setting Permission</string>
+    <string name="to_manage_your_files_allow_pdf_reader_to_access_your_files">To manage your files,Allow PDF reader to access your files</string>
+    <string name="open_settings">Open Settings</string>
 </resources>
