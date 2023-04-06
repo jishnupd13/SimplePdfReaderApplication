@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <application
         android:allowBackup="true"
@@ -14,9 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StorageApp"
         tools:targetApi="31">
+
         <activity
-            android:name=".externalstorage.ExternalStorageActivity"
-            android:exported="true">
+            android:name=".pdfreader.PdfReaderActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:theme="@style/Theme.RemoveSplashScreenTheme"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,9 +32,12 @@
         </activity>
 
         <activity
-            android:name=".internalstorage.MainActivity"
+            android:name=".externalstorage.ExternalStorageActivity"
             android:exported="false"/>
 
+        <activity
+            android:name=".internalstorage.MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
