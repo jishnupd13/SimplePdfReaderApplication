@@ -17,21 +17,21 @@
         <Constraint
             android:id="@+id/viewCircle"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            android:scaleX="0"
-            android:scaleY="0" />
+            android:scaleX="1"
+            android:scaleY="1" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
             android:id="@+id/viewCircle"
             motion:layout_constraintEnd_toEndOf="parent"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"

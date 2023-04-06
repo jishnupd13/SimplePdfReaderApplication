@@ -10,11 +10,11 @@
     tools:context=".pdfreader.splash.SplashFragment"
     >
 
-
     <View
         android:id="@+id/viewCircle"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:visibility="gone"
         android:background="@drawable/bg_dark_red_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,8 +23,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutSplash"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:visibility="visible"
         android:background="@drawable/bg_dark_red_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

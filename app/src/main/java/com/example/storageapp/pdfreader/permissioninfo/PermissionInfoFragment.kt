@@ -68,6 +68,7 @@ class PermissionInfoFragment : Fragment(R.layout.fragment_permission_info) {
         intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
         val uri: Uri = Uri.fromParts("package", requireActivity().packageName, null)
         intent.data = uri
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         requireActivity().startActivity(intent)
     }
 

@@ -14,6 +14,6 @@
     <string name="permission">Permission</string>
     <string name="why_this_permission">Why this permission</string>
     <string name="why_permission_required">Why Permission Required?</string>
-    <string name="reason">To Mange your files, allow PDF reader to access your files. Providing permission to this application do not harm your privacy. Without Permission app cannot work smoothly</string>
+    <string name="reason">To Mange your files, allow PDF reader to access your files. Providing permission to this application do not harm your privacy. Without Permission app cannot work smoothly. You should give the permission to go to next step.</string>
     <string name="allow">Allow</string>
 </resources>
