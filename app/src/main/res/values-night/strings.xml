@@ -18,4 +18,7 @@
     <string name="setting_permission">Setting Permission</string>
     <string name="to_manage_your_files_allow_pdf_reader_to_access_your_files">To manage your files,Allow PDF reader to access your files</string>
     <string name="open_settings">Open Settings</string>
+    <string name="image_options">Image Options</string>
+    <string name="for_sort">For Sort</string>
+    <string name="search_pdf">Search Pdf</string>
 </resources>
