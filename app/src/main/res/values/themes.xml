@@ -8,7 +8,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <!-- Customize your theme here. -->
+<!--
         <item name="android:windowDisablePreview">true</item>
+-->
     </style>
 
     <style name="Theme.RemoveSplashScreenTheme" parent="@style/Theme.StorageApp">

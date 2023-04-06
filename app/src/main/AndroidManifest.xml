@@ -20,9 +20,6 @@
         <activity
             android:name=".pdfreader.PdfReaderActivity"
             android:exported="true"
-            android:launchMode="singleInstance"
-            android:noHistory="true"
-            android:theme="@style/Theme.RemoveSplashScreenTheme"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -9,11 +9,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.storageapp.utils.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 class SplashViewModel : ViewModel() {
 
-    private val _permissionMutableLiveData = MutableLiveData<List<String>>()
+    private val _permissionMutableLiveData = SingleLiveEvent<List<String>>()
     val permissionLiveDate:LiveData<List<String>> = _permissionMutableLiveData
 
     fun checkPermissionNeeded(context:Context) = viewModelScope.launch {

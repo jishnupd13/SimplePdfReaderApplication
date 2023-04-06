@@ -1,9 +1,11 @@
 package com.example.storageapp.pdfreader.permissioninfo
 
+import android.app.Activity
 import android.content.Intent
+import android.content.Intent.*
 import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
+import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.storageapp.R
 import com.example.storageapp.databinding.FragmentPermissionInfoBinding
 import com.example.storageapp.pdfreader.splash.SplashViewModel
-import com.example.storageapp.utils.StatusBarDelegate
 
 
 class PermissionInfoFragment : Fragment(R.layout.fragment_permission_info) {
@@ -23,11 +24,16 @@ class PermissionInfoFragment : Fragment(R.layout.fragment_permission_info) {
     private val viewModel by viewModels<SplashViewModel>()
     private lateinit var permissionsLauncher: ActivityResultLauncher<Array<String>>
 
+     private var settingsPermissionResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPermissionInfoBinding.bind(view)
-        StatusBarDelegate().showStatusBar(activity = requireActivity())
+        //StatusBarDelegate().showStatusBar(activity = requireActivity())
         permissionLauncher()
         observeReadAndWritePermissionLiveData()
         initViews()
@@ -61,15 +67,22 @@ class PermissionInfoFragment : Fragment(R.layout.fragment_permission_info) {
                 }
             }
         }
+
+
     }
 
     private fun openAppSettings(){
-        val intent = Intent()
-        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-        val uri: Uri = Uri.fromParts("package", requireActivity().packageName, null)
-        intent.data = uri
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        requireActivity().startActivity(intent)
+        val intent = Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
+        with(intent) {
+            data = Uri.fromParts("package", requireContext().packageName, null)
+            addCategory(CATEGORY_DEFAULT)
+            addFlags(FLAG_ACTIVITY_NEW_TASK)
+            addFlags(FLAG_ACTIVITY_NO_HISTORY)
+            addFlags(FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+            addFlags(FLAG_ACTIVITY_CLEAR_TOP)
+            addFlags(FLAG_ACTIVITY_CLEAR_TASK)
+        }
+        startActivity(intent)
     }
 
 
