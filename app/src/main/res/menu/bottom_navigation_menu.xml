@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/documents"
+        android:icon="@drawable/ic_blank_file"
+        android:title="@string/documents"/>
+
+    <item
+        android:id="@+id/recentlyViewed"
+        android:icon="@drawable/ic_recently_viewed"
+        android:title="@string/recent"/>
+
+    <item
+        android:id="@+id/bookMarks"
+        android:icon="@drawable/ic_book_mark"
+        android:title="@string/bookmarks"/>
+
+</menu>

@@ -193,7 +193,7 @@ class ExternalStorageActivity : AppCompatActivity() {
                 MediaStore.Images.Media._ID,
                 MediaStore.Images.Media.DISPLAY_NAME,
                 MediaStore.Images.Media.WIDTH,
-                MediaStore.Images.Media.HEIGHT,
+                MediaStore.Images.Media.HEIGHT
             )
             val photos = mutableListOf<PhotosExternalModel>()
             contentResolver.query(

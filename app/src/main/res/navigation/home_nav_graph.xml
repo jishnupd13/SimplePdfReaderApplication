@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav_graph"
+    app:startDestination="@id/documents">
+
+    <fragment
+        android:id="@+id/documents"
+        android:name="com.example.storageapp.pdfreader.documents.DocumentsFragment"
+        android:label="fragment_documents"
+        tools:layout="@layout/fragment_documents" />
+
+    <fragment
+        android:id="@+id/bookMarks"
+        android:name="com.example.storageapp.pdfreader.bookmarks.BookMarksFragment"
+        android:label="fragment_book_marks"
+        tools:layout="@layout/fragment_book_marks" />
+
+    <fragment
+        android:id="@+id/recentlyViewed"
+        android:name="com.example.storageapp.pdfreader.recentlyviewed.RecentlyViewedFragment"
+        android:label="fragment_recently_viewed"
+        tools:layout="@layout/fragment_recently_viewed" />
+
+
+</navigation>

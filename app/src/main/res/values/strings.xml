@@ -23,4 +23,13 @@
     <string name="image_options">Image Options</string>
     <string name="for_sort">For Sort</string>
     <string name="search_pdf">Search Pdf</string>
+    <string name="documents">Documents</string>
+    <string name="recent">Recent</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="navigation_drawer_header_image">Navigation Drawer Header Image</string>
+    <string name="custom_pdf_viewer_application">Custom Pdf Viewer Application</string>
+    <string name="organize_all_the_pdf_files_at_one_place">Organize all the pdf files at one place</string>
+    <string name="home">Home</string>
+    <string name="image_pdf_file">Image Pdf file</string>
+    <string name="image_selected_and_unselected">image selected and unselected</string>
 </resources>

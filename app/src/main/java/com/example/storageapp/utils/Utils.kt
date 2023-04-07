@@ -1,8 +1,11 @@
 package com.example.storageapp
 
+import android.content.res.Resources
 import android.view.View
 import android.os.Build
 import androidx.constraintlayout.motion.widget.MotionLayout
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 
 fun View.hide(){
@@ -30,4 +33,16 @@ fun View.setMotionLayoutChildVisibility(visibility: Int) {
         constraintSet.setVisibility(this.id, visibility)
         constraintSet.applyTo(motionLayout)
     }
+}
+
+val Int.dp: Int
+    get() = (this / Resources.getSystem().displayMetrics.density).toInt()
+
+val Int.px: Int
+    get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+
+fun Float.round():String{
+    val df = DecimalFormat("#.#")
+    df.roundingMode = RoundingMode.CEILING
+    return df.format(this)
 }
