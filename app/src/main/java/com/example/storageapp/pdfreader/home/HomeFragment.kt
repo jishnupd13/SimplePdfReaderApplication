@@ -56,10 +56,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                     binding.bottomNavigationView.selectedItemId = R.id.documents
                     lifecycleScope.launch(Dispatchers.Main) {
-                        delay(200)
+                        delay(100)
                         binding.drawerLayout.closeDrawerDelegate()
                     }
-                   // binding.bottomNavigationView.selectedItemId = R.id.documents
                 }
                 else->{
                     throw NoSuchElementException("Invalid Item")

@@ -1,16 +1,23 @@
 package com.example.storageapp.pdfreader.documents
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
+import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.storageapp.R
+import androidx.lifecycle.lifecycleScope
+import com.example.storageapp.*
 import com.example.storageapp.adapters.PdfItemAdapter
 import com.example.storageapp.databinding.FragmentDocumentsBinding
-import com.example.storageapp.dp
 import com.example.storageapp.pdfreader.models.PdfModel
-import com.example.storageapp.px
 import com.example.storageapp.utils.PdfRecyclerviewItemDecorator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class DocumentsFragment : Fragment(R.layout.fragment_documents) {
 
@@ -24,7 +31,14 @@ class DocumentsFragment : Fragment(R.layout.fragment_documents) {
         binding = FragmentDocumentsBinding.bind(view)
         initViews()
         viewModel.documentsLiveData.observe(viewLifecycleOwner){
-            adapter.asyncListDiffer.submitList(it)
+            if(it.isNotEmpty()) {
+                adapter.asyncListDiffer.submitList(it)
+                binding.layoutPdfNoFilesFound.hide()
+            }
+            else {
+                binding.layoutPdfNoFilesFound.show()
+                binding.layoutPdfNoFilesFound.animation = AnimationUtils.loadAnimation(requireContext(),R.anim.shake_anim)
+            }
         }
 
     }
@@ -46,4 +60,6 @@ class DocumentsFragment : Fragment(R.layout.fragment_documents) {
             recyclerviewPdf.addItemDecoration(PdfRecyclerviewItemDecorator(paddingTop = 14.px, paddingHorizontal = 14.px, paddingBottom = 8.px))
         }
     }
+
+
 }

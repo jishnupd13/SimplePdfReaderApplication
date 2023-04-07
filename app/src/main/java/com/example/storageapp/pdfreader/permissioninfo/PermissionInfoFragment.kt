@@ -70,10 +70,12 @@ class PermissionInfoFragment : Fragment(R.layout.fragment_permission_info) {
                         viewModel.checkPermissionNeeded(requireContext())
                     }
                     return@registerForActivityResult
-                }else{
+                }
+                if(permissions.entries.last() == it){
                     findNavController().navigate(PermissionInfoFragmentDirections.actionPermissionInfoFragmentToHomeFragment())
                 }
             }
+
         }
     }
 
