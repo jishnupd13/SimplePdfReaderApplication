@@ -8,5 +8,6 @@ data class PdfModel(
     val createdAt:Int,
     val contentUri: Uri,
     val fileSize:Int,
-    var isItemSelected:Boolean = false
+    var isItemSelected:Boolean = false,
+    var isEnableSelection:Boolean = false
 )

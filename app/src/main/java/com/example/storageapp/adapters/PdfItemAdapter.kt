@@ -10,11 +10,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.storageapp.R
 import com.example.storageapp.databinding.CellPdfItemBinding
+import com.example.storageapp.hide
 import com.example.storageapp.pdfreader.models.PdfModel
 import com.example.storageapp.round
+import com.example.storageapp.show
 import com.example.storageapp.utils.epochToIso8601
 
-class PdfItemAdapter(val onItemLongPressed:(item:PdfModel,position:Int)->Unit): Adapter<PdfItemAdapter.PdfItemViewHolder>() {
+class PdfItemAdapter(
+    val onItemLongPressed:(item:PdfModel,position:Int)->Unit,
+    val onItemClick:(item:PdfModel,position:Int) -> Unit
+): Adapter<PdfItemAdapter.PdfItemViewHolder>() {
 
     private val diffUtils = object : ItemCallback<PdfModel>() {
 
@@ -35,11 +40,15 @@ class PdfItemAdapter(val onItemLongPressed:(item:PdfModel,position:Int)->Unit): 
         @SuppressLint("SetTextI18n")
         fun onBind(item:PdfModel) = binding.apply{
            textPdfName.text = item.name
-
             val fileSizeInKb = (item.fileSize/1024f)
             val fileSizeInMb = (fileSizeInKb/1024f)
             val fileSize = if(fileSizeInMb>=1) "${fileSizeInMb.round()} MB" else "${fileSizeInKb.round()} kB"
             textFileSizeAndDate.text = "${epochToIso8601(item.createdAt.toLong())} - $fileSize"
+
+            if(item.isEnableSelection)
+                imgSelected.show()
+            else
+                imgSelected.hide()
 
             if(item.isItemSelected){
                 imgSelected.setImageDrawable(ContextCompat.getDrawable(imgSelected.context, R.drawable.ic_selected))
@@ -58,12 +67,20 @@ class PdfItemAdapter(val onItemLongPressed:(item:PdfModel,position:Int)->Unit): 
         return asyncListDiffer.currentList.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: PdfItemViewHolder, position: Int) {
         val item = asyncListDiffer.currentList[position]
         holder.onBind(item)
         holder.binding.root.setOnLongClickListener {
             onItemLongPressed.invoke(item,position)
+            asyncListDiffer.currentList.forEach {
+                it.isEnableSelection = true
+            }
+            notifyDataSetChanged()
             true
         }
+      holder.binding.root.setOnClickListener {
+          onItemClick(item,position)
+      }
     }
 }

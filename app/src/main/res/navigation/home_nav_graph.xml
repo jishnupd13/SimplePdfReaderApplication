@@ -9,7 +9,11 @@
         android:id="@+id/documents"
         android:name="com.example.storageapp.pdfreader.documents.DocumentsFragment"
         android:label="fragment_documents"
-        tools:layout="@layout/fragment_documents" />
+        tools:layout="@layout/fragment_documents" >
+        <action
+            android:id="@+id/action_documents_to_pdfViewerFragment"
+            app:destination="@id/pdfViewerFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/bookMarks"
@@ -22,6 +26,11 @@
         android:name="com.example.storageapp.pdfreader.recentlyviewed.RecentlyViewedFragment"
         android:label="fragment_recently_viewed"
         tools:layout="@layout/fragment_recently_viewed" />
+    <fragment
+        android:id="@+id/pdfViewerFragment"
+        android:name="com.example.storageapp.pdfreader.pdfviewer.PdfViewerFragment"
+        android:label="fragment_pdf_viewer"
+        tools:layout="@layout/fragment_pdf_viewer" />
 
 
 </navigation>

@@ -1,27 +1,31 @@
 package com.example.storageapp.pdfreader.documents
 
-import android.annotation.SuppressLint
-import android.app.Application
 import android.content.ContentUris
 import android.content.Context
 import android.provider.MediaStore
 import android.util.Log
-import androidx.lifecycle.*
+import android.webkit.MimeTypeMap
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.storageapp.pdfreader.models.PdfModel
 import com.example.storageapp.sdk29AndUp
 import kotlinx.coroutines.launch
 
-class DocumentsViewModel(application: Application):AndroidViewModel(application) {
 
-    @SuppressLint("StaticFieldLeak")
-    private val context = getApplication<Application>().applicationContext
+class DocumentsViewModel:ViewModel() {
 
     private var _documentsMutableLiveData = MutableLiveData<List<PdfModel>>()
     val documentsLiveData:LiveData<List<PdfModel>> = _documentsMutableLiveData
 
+    var itemSelectionCount = MutableLiveData<Int>().apply {
+        value = 0
+    }
+
     fun fetchPdfDocumentsFromExternalStorage(context:Context) = viewModelScope.launch {
         val collection = sdk29AndUp {
-            MediaStore.Files.getContentUri("external_primary")
+            MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
         } ?:  MediaStore.Files.getContentUri("external")
 
         val projection = arrayOf(
@@ -31,15 +35,18 @@ class DocumentsViewModel(application: Application):AndroidViewModel(application)
             MediaStore.Files.FileColumns.SIZE
         )
 
+        val pdf = MimeTypeMap.getSingleton().getMimeTypeFromExtension("pdf")
+
         val files = mutableListOf<PdfModel>()
         val  selection = "_data LIKE '%.pdf'"
+       // val  selection = "${MediaStore.Files.FileColumns.MIME_TYPE} =?"
 
          context.contentResolver.query(
             collection,
             projection,
             selection,
             null,
-            "${MediaStore.Files.FileColumns.DISPLAY_NAME} ASC"
+            "${MediaStore.Files.FileColumns.TITLE} ASC"
         )?.use { cursor ->
             val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)
             val displayNameColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.TITLE)
@@ -70,9 +77,4 @@ class DocumentsViewModel(application: Application):AndroidViewModel(application)
         Log.e("pdf","${files.size}")
         _documentsMutableLiveData.value = files
     }
-
-    init {
-        fetchPdfDocumentsFromExternalStorage(context)
-    }
-
 }
