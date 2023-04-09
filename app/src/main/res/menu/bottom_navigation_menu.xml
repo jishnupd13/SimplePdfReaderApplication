@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/bookMarks"
-        android:icon="@drawable/ic_book_mark"
+        android:icon="@drawable/ic_book_mark_un_selected"
         android:title="@string/bookmarks"/>
 
 </menu>

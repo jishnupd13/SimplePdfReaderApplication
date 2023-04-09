@@ -10,6 +10,7 @@ object PreferenceUtils {
     private var preferenceInstance : SharedPreferences? = null
     private var preferenceEditor:Editor? = null
     private var recentlyViewedItemTag = "recentlyViewed"
+    private var bookMarkIdTag = "bookmarkIds"
 
     fun initPreference(context: Context){
         if (preferenceInstance == null){
@@ -39,5 +40,16 @@ object PreferenceUtils {
 
     fun getRecentlyViewedItem():String{
         return preferenceInstance?.getString(recentlyViewedItemTag,"")?:""
+    }
+
+    fun saveBookMarkIds(value:String){
+        preferenceEditor?.apply {
+            putString(bookMarkIdTag,value)
+            commit()
+        }
+    }
+
+    fun getBookMarkIds():String{
+        return preferenceInstance?.getString(bookMarkIdTag,"")?:""
     }
 }

@@ -21,12 +21,13 @@
             android:layout_height="60dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="14dp"
-            android:layout_marginBottom="14dp"
             android:contentDescription="@string/image_pdf_file"
             android:src="@drawable/ic_pdf"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="14dp"
+            />
 
         <TextView
             android:id="@+id/textPdfName"
@@ -39,10 +40,10 @@
             android:singleLine="true"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/textFileSizeAndDate"
-            app:layout_constraintEnd_toStartOf="@+id/imgSelected"
             app:layout_constraintStart_toEndOf="@+id/imgPdf"
             app:layout_constraintTop_toTopOf="@+id/imgPdf"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
             tools:text="Appriasal" />
 
         <TextView
@@ -57,41 +58,11 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/imgPdf"
             app:layout_constraintEnd_toEndOf="@+id/textPdfName"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/textPdfName"
             app:layout_constraintTop_toBottomOf="@+id/textPdfName"
             tools:text="12/14/2022 - 200 Kb " />
 
-        <ImageView
-            android:id="@+id/imgSelected"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:contentDescription="@string/image_selected_and_unselected"
-            android:src="@drawable/bg_grey_border_circle"
-            android:visibility="gone"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textFileSizeAndDate"
-            app:layout_constraintEnd_toStartOf="@+id/imageBookMark"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/textPdfName"
-            app:layout_constraintTop_toTopOf="@+id/textPdfName"
-            tools:src="@drawable/ic_unselected" />
-
-        <ImageView
-            android:id="@+id/imageBookMark"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginEnd="8dp"
-            android:visibility="visible"
-            tools:src="@drawable/ic_book_mark_un_selected"
-            android:contentDescription="@string/image_bookmark"
-            app:layout_constraintBottom_toBottomOf="@+id/imgSelected"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imgSelected"
-            app:layout_constraintTop_toTopOf="@+id/imgSelected" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </androidx.cardview.widget.CardView>

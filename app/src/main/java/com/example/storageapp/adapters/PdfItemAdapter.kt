@@ -14,12 +14,15 @@ import com.example.storageapp.hide
 import com.example.storageapp.pdfreader.models.PdfModel
 import com.example.storageapp.round
 import com.example.storageapp.show
+import com.example.storageapp.utils.BookMarkUtils
 import com.example.storageapp.utils.epochToIso8601
 
 class PdfItemAdapter(
     val onItemLongPressed:(item:PdfModel,position:Int)->Unit,
     val onItemClick:(item:PdfModel,position:Int) -> Unit
 ): Adapter<PdfItemAdapter.PdfItemViewHolder>() {
+
+    val bookMarkUtils = BookMarkUtils()
 
     private val diffUtils = object : ItemCallback<PdfModel>() {
 
@@ -34,7 +37,7 @@ class PdfItemAdapter(
 
     val asyncListDiffer = AsyncListDiffer(this,diffUtils)
 
-    class PdfItemViewHolder(
+  inner class PdfItemViewHolder(
         val binding:CellPdfItemBinding
     ):RecyclerView.ViewHolder(binding.root){
         @SuppressLint("SetTextI18n")
@@ -45,15 +48,23 @@ class PdfItemAdapter(
             val fileSize = if(fileSizeInMb>=1) "${fileSizeInMb.round()} MB" else "${fileSizeInKb.round()} kB"
             textFileSizeAndDate.text = "${epochToIso8601(item.createdAt.toLong())} - $fileSize"
 
-            if(item.isEnableSelection)
+            if(item.isEnableSelection){
                 imgSelected.show()
-            else
+                imageBookMark.hide()
+            } else{
                 imgSelected.hide()
+                imageBookMark.show()
+            }
 
-            if(item.isItemSelected){
+            if(item.isItemSelected)
                 imgSelected.setImageDrawable(ContextCompat.getDrawable(imgSelected.context, R.drawable.ic_selected))
-            }else{
+            else
                 imgSelected.setImageDrawable(ContextCompat.getDrawable(imgSelected.context, R.drawable.ic_unselected))
+
+            if(bookMarkUtils.fetchBookMarkIdList().contains(item.id)){
+                imageBookMark.setImageDrawable(ContextCompat.getDrawable(imageBookMark.context,R.drawable.ic_book_mark_selected))
+            }else{
+                imageBookMark.setImageDrawable(ContextCompat.getDrawable(imageBookMark.context,R.drawable.ic_book_mark_un_selected))
             }
         }
     }
@@ -81,6 +92,16 @@ class PdfItemAdapter(
         }
       holder.binding.root.setOnClickListener {
           onItemClick(item,position)
+      }
+
+      holder.binding.imageBookMark.setOnClickListener {
+          if(bookMarkUtils.fetchBookMarkIdList().contains(item.id)){
+              bookMarkUtils.removeBookMarkId(id = item.id)
+              notifyItemChanged(position)
+          }else{
+              bookMarkUtils.saveBookMarkId(id = item.id)
+              notifyItemChanged(position)
+          }
       }
     }
 }

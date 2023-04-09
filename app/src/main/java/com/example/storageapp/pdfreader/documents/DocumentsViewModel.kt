@@ -28,6 +28,7 @@ class DocumentsViewModel:ViewModel() {
     }
 
     fun fetchPdfDocumentsFromExternalStorage(context:Context) = viewModelScope.launch {
+
         val collection = sdk29AndUp {
             MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
         } ?:  MediaStore.Files.getContentUri("external")
@@ -39,7 +40,7 @@ class DocumentsViewModel:ViewModel() {
             MediaStore.Files.FileColumns.SIZE
         )
 
-        val pdf = MimeTypeMap.getSingleton().getMimeTypeFromExtension("pdf")
+  //      val pdf = MimeTypeMap.getSingleton().getMimeTypeFromExtension("pdf")
 
         val files = mutableListOf<PdfModel>()
         val  selection = "_data LIKE '%.pdf'"
@@ -78,7 +79,6 @@ class DocumentsViewModel:ViewModel() {
             files.toList()
         } ?: listOf()
 
-        Log.e("pdf","${files.size}")
         _documentsMutableLiveData.value = files
     }
 }
