@@ -3,13 +3,19 @@ package com.example.storageapp.utils
 import com.example.storageapp.pdfreader.models.PdfModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.util.Calendar
 
 
 class RecentlyViewedUtils {
-
     fun saveRecentlyViewedItem(item:PdfModel){
         val currentList = getRecentlyViewedList()
-        currentList.add(item)
+        if (currentList.contains(item)){
+            val position = currentList.indexOf(item)
+            currentList[position].recentlyViewedTime = Calendar.getInstance().timeInMillis
+        }else{
+            item.recentlyViewedTime = Calendar.getInstance().timeInMillis
+            currentList.add(item)
+        }
         val gson = Gson()
         val json: String = gson.toJson(currentList)
         PreferenceUtils.saveRecentlyViewedItem(json)
