@@ -9,5 +9,6 @@ data class PdfModel(
     val contentUri: Uri,
     val fileSize:Int,
     var isItemSelected:Boolean = false,
-    var isEnableSelection:Boolean = false
+    var isEnableSelection:Boolean = false,
+    val recentlyViewedTime:Long = 0L
 )

@@ -17,10 +17,7 @@ import com.example.storageapp.databinding.FragmentHomeBinding
 import com.example.storageapp.hide
 import com.example.storageapp.pdfreader.documents.DocumentsFragment
 import com.example.storageapp.show
-import com.example.storageapp.utils.CommonLiveDataUtil
-import com.example.storageapp.utils.closeDrawerDelegate
-import com.example.storageapp.utils.handleBackButtonDelegate
-import com.example.storageapp.utils.openDrawerDelegate
+import com.example.storageapp.utils.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -37,6 +34,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
         initViews()
+        Log.e("data", PreferenceUtils.getValue("dummy"))
     }
 
     private fun initViews() {
@@ -44,8 +42,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
              nestedNavHostFragment = childFragmentManager.findFragmentById(R.id.navHostFragment) as? NavHostFragment
              navController = nestedNavHostFragment?.navController
-
-
 
             navController.let {
 
@@ -108,10 +104,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 true
             }
 
-            imgClose.setOnClickListener {
+            imgDelete.setOnClickListener {
                 val fragment =nestedNavHostFragment?.childFragmentManager?.primaryNavigationFragment
                 if (fragment is DocumentsFragment){
                     fragment.deleteFiles()
+                }
+            }
+
+            imgClose.setOnClickListener {
+                hideSelection()
+                val fragment =nestedNavHostFragment?.childFragmentManager?.primaryNavigationFragment
+                if (fragment is DocumentsFragment){
+                    fragment.setItemCountEmpty()
                 }
             }
         }

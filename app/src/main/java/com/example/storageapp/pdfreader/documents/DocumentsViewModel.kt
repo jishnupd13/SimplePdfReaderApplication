@@ -23,6 +23,10 @@ class DocumentsViewModel:ViewModel() {
         value = 0
     }
 
+    var isEnableSelectionItem = MutableLiveData<Boolean>().apply {
+        value = false
+    }
+
     fun fetchPdfDocumentsFromExternalStorage(context:Context) = viewModelScope.launch {
         val collection = sdk29AndUp {
             MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
@@ -31,7 +35,7 @@ class DocumentsViewModel:ViewModel() {
         val projection = arrayOf(
             MediaStore.Files.FileColumns._ID,
             MediaStore.Files.FileColumns.TITLE,
-            MediaStore.Files.FileColumns.DATE_MODIFIED,
+            MediaStore.Files.FileColumns.DATE_ADDED,
             MediaStore.Files.FileColumns.SIZE
         )
 
@@ -51,7 +55,7 @@ class DocumentsViewModel:ViewModel() {
             val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)
             val displayNameColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.TITLE)
             val sizeOfFileColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.SIZE)
-            val createdAtColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_MODIFIED)
+            val createdAtColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_ADDED)
 
             while(cursor.moveToNext()) {
                 val id = cursor.getLong(idColumn)

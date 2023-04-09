@@ -7,10 +7,11 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,6 +30,7 @@ import com.example.storageapp.px
 import com.example.storageapp.show
 import com.example.storageapp.utils.CommonLiveDataUtil
 import com.example.storageapp.utils.PdfRecyclerviewItemDecorator
+import com.example.storageapp.utils.RecentlyViewedUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -45,6 +47,7 @@ class DocumentsFragment : Fragment(R.layout.fragment_documents) {
     private var parent:HomeFragment?=null
     private lateinit var intentSenderLauncher: ActivityResultLauncher<IntentSenderRequest>
     private var list = arrayListOf<Uri>()
+    private var recentlyViewedUtils = RecentlyViewedUtils()
 
 
 
@@ -78,8 +81,31 @@ class DocumentsFragment : Fragment(R.layout.fragment_documents) {
                 Toast.makeText(requireContext(), "Photo couldn't be deleted", Toast.LENGTH_SHORT).show()
             }
         }
-    }
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+           handleOnBackPressed()
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun handleOnBackPressed() {
+                    if(viewModel.isEnableSelectionItem.value == true){
+                        parent?.hideSelection()
+                        viewModel.itemSelectionCount.value = 0
+                        viewModel.isEnableSelectionItem.value = false
+                        adapter.asyncListDiffer.currentList.map {
+                            it.isItemSelected = false
+                            it.isEnableSelection = false
+                        }
+                        adapter.notifyDataSetChanged()
+                    }else
+                        requireActivity().finish()
+                }
+            }
+        )
+    }
 
     fun deleteFiles(){
         adapter.asyncListDiffer.currentList.map {
@@ -91,7 +117,20 @@ class DocumentsFragment : Fragment(R.layout.fragment_documents) {
             lifecycleScope.launch {
                 deleteFiles(list)
             }
+            viewModel.itemSelectionCount.value = 0
+            parent?.hideSelection()
+            viewModel.isEnableSelectionItem.value = false
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setItemCountEmpty(){
+        viewModel.itemSelectionCount.value = 0
+        adapter.asyncListDiffer.currentList.map {
+            it.isItemSelected = false
+            it.isEnableSelection= false
+        }
+        adapter.notifyDataSetChanged()
     }
 
 
@@ -105,6 +144,7 @@ class DocumentsFragment : Fragment(R.layout.fragment_documents) {
            adapter.notifyDataSetChanged()
            parent?.hideSelection()
             viewModel.itemSelectionCount.value = 0
+            viewModel.isEnableSelectionItem.value = false
         }
     }
 
@@ -120,7 +160,7 @@ class DocumentsFragment : Fragment(R.layout.fragment_documents) {
                 incrementItemCount()
             }
             parent?.showSelection()
-            Unit
+            viewModel.isEnableSelectionItem.value = true
         }
 
         val onItemClicked = { item:PdfModel,position:Int ->
@@ -135,6 +175,7 @@ class DocumentsFragment : Fragment(R.layout.fragment_documents) {
                     incrementItemCount()
                 }
             }else{
+                recentlyViewedUtils.saveRecentlyViewedItem(item)
                 findNavController().navigate(DocumentsFragmentDirections.actionDocumentsToPdfViewerFragment())
             }
 
