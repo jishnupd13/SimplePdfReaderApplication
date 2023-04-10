@@ -6,14 +6,10 @@ import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import com.example.storageapp.pdfreader.models.PdfModel
 import com.example.storageapp.sdk29AndUp
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 
 class SearchViewModel : ViewModel() {
 
-    private val searchResultMutableStateFlow = MutableStateFlow<List<PdfModel>>(listOf())
-    var searchResultFlow :Flow<List<PdfModel>> = searchResultMutableStateFlow
 
     fun searchFileByTitle(query:String, context:Context) = flow<List<PdfModel>> {
         val collection = sdk29AndUp {

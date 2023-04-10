@@ -31,6 +31,7 @@ class RecentlyViewedFragment : Fragment(R.layout.fragment_recently_viewed) {
         binding.apply {
             adapter = RecentlyViewedAdapter()
             recyclerviewRecentlyViewed.adapter = adapter
+            recyclerviewRecentlyViewed.itemAnimator = null
             recyclerviewRecentlyViewed.addItemDecoration(PdfRecyclerviewItemDecorator(paddingTop = 14.px, paddingHorizontal = 14.px, paddingBottom = 8.px))
         }
         observeRecentlyViewedItems()

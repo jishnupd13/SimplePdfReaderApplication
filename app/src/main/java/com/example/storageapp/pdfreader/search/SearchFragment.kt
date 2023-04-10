@@ -8,15 +8,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.storageapp.R
+import com.example.storageapp.*
 import com.example.storageapp.adapters.SearchAdapter
 import com.example.storageapp.databinding.FragmentSearchBinding
-import com.example.storageapp.getQueryTextChangeStateFlow
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import com.example.storageapp.utils.PdfRecyclerviewItemDecorator
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 
 class SearchFragment : Fragment(R.layout.fragment_search) {
@@ -44,6 +41,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         setUpSearchStateFlow()
         binding.apply {
             adapter = SearchAdapter()
+            recyclerviewSearch.addItemDecoration(PdfRecyclerviewItemDecorator(paddingTop = 14.px, paddingHorizontal = 14.px, paddingBottom = 8.px))
+            recyclerviewSearch.itemAnimator = null
             recyclerviewSearch.adapter = adapter
         }
     }
@@ -54,6 +53,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             binding.searchView.getQueryTextChangeStateFlow()
                 .debounce(300)
                 .filter { query ->
+                    withContext(Dispatchers.Main){
+                        binding.textNoResultFound.hide()
+                    }
                     if (query.isEmpty()) {
                         adapter.asyncListDiffer.submitList(arrayListOf())
                         return@filter false
@@ -72,6 +74,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 .flowOn(Dispatchers.Default)
                 .collect{
                     adapter.asyncListDiffer.submitList(it)
+                    if(it.isEmpty()){
+                        binding.textNoResultFound.show()
+                    }else{
+                        binding.textNoResultFound.hide()
+                    }
                 }
         }
     }
