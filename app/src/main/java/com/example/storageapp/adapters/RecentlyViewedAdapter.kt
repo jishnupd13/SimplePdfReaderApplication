@@ -1,14 +1,20 @@
 package com.example.storageapp.adapters
 
+import android.content.Context
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.documentfile.provider.DocumentFile
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.storageapp.databinding.CellRecentlyViewedItemBinding
+import com.example.storageapp.hide
 import com.example.storageapp.pdfreader.models.PdfModel
 import com.example.storageapp.round
+import com.example.storageapp.show
 import com.example.storageapp.utils.epochToIso8601
 
 class RecentlyViewedAdapter: Adapter<RecentlyViewedAdapter.RecentlyViewedItemViewHolder>() {
@@ -35,6 +41,22 @@ class RecentlyViewedAdapter: Adapter<RecentlyViewedAdapter.RecentlyViewedItemVie
             val fileSizeInMb = (fileSizeInKb/1024f)
             val fileSize = if(fileSizeInMb>=1) "${fileSizeInMb.round()} MB" else "${fileSizeInKb.round()} kB"
             textFileSizeAndDate.text = "${epochToIso8601(item.createdAt.toLong())} - $fileSize"
+
+            if(checkFileExists(uri = item.contentUri,root.context)){
+                layoutFileDoesNotExists.hide()
+                root.isEnabled = true
+            }else{
+                layoutFileDoesNotExists.show()
+                root.isEnabled = false
+            }
+        }
+
+        private fun checkFileExists(uri:Uri,context:Context):Boolean{
+            try {
+                context.contentResolver.openInputStream(uri).use { return true }
+            }catch (e:Exception){
+                return false
+            }
         }
     }
 
@@ -53,5 +75,10 @@ class RecentlyViewedAdapter: Adapter<RecentlyViewedAdapter.RecentlyViewedItemVie
     override fun onBindViewHolder(holder: RecentlyViewedItemViewHolder, position: Int) {
         val item = asyncListDiffer.currentList[position]
         holder.onBind(item)
+
+        val file = DocumentFile.fromSingleUri(holder.binding.root.context, item.contentUri)
+        Log.e("file pointer","$file")
     }
+
+
 }
