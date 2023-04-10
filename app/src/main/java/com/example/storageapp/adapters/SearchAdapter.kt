@@ -12,9 +12,12 @@ import com.example.storageapp.R
 import com.example.storageapp.databinding.CellSearchItemBinding
 import com.example.storageapp.pdfreader.models.PdfModel
 import com.example.storageapp.round
+import com.example.storageapp.utils.RecentlyViewedUtils
 import com.example.storageapp.utils.epochToIso8601
 
 class SearchAdapter(val onItemClick:(item:PdfModel)->Unit) : Adapter<SearchAdapter.SearchItemViewHolder>() {
+
+    private var recentlyViewedUtils = RecentlyViewedUtils()
 
     private val diffUtils = object : DiffUtil.ItemCallback<PdfModel>() {
 
@@ -62,6 +65,7 @@ class SearchAdapter(val onItemClick:(item:PdfModel)->Unit) : Adapter<SearchAdapt
         holder.onBind(item)
         holder.binding.root.setOnClickListener {
             onItemClick(item)
+            recentlyViewedUtils.saveRecentlyViewedItem(item)
         }
 
     }

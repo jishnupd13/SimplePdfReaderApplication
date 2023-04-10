@@ -1,9 +1,7 @@
 package com.example.storageapp.adapters
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.os.Build
-import android.util.Size
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
@@ -16,10 +14,12 @@ import com.example.storageapp.R
 import com.example.storageapp.databinding.CellBookmarkItemsBinding
 import com.example.storageapp.pdfreader.models.PdfModel
 import com.example.storageapp.round
-import com.example.storageapp.utils.PdfUtils
+import com.example.storageapp.utils.RecentlyViewedUtils
 import com.example.storageapp.utils.epochToIso8601
 
 class BookMarkItemsAdapter(val onBookMarkItemClick:(item:PdfModel)->Unit) : Adapter<BookMarkItemsAdapter.BookMarkItemViewHolder>() {
+
+    private var recentlyViewedUtils = RecentlyViewedUtils()
 
     private val diffUtils = object : DiffUtil.ItemCallback<PdfModel>() {
 
@@ -71,6 +71,7 @@ class BookMarkItemsAdapter(val onBookMarkItemClick:(item:PdfModel)->Unit) : Adap
         holder.onBind(item)
         holder.binding.root.setOnClickListener {
             onBookMarkItemClick(item)
+            recentlyViewedUtils.saveRecentlyViewedItem(item)
         }
     }
 }

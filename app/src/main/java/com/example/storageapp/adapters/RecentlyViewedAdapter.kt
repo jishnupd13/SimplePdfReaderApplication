@@ -16,9 +16,12 @@ import com.example.storageapp.hide
 import com.example.storageapp.pdfreader.models.PdfModel
 import com.example.storageapp.round
 import com.example.storageapp.show
+import com.example.storageapp.utils.RecentlyViewedUtils
 import com.example.storageapp.utils.epochToIso8601
 
 class RecentlyViewedAdapter(val onItemClick:(item:PdfModel)->Unit): Adapter<RecentlyViewedAdapter.RecentlyViewedItemViewHolder>() {
+
+    private var recentlyViewedUtils = RecentlyViewedUtils()
 
     private val diffUtils = object : DiffUtil.ItemCallback<PdfModel>() {
 
@@ -84,6 +87,7 @@ class RecentlyViewedAdapter(val onItemClick:(item:PdfModel)->Unit): Adapter<Rece
         holder.onBind(item)
         holder.binding.root.setOnClickListener {
             onItemClick(item)
+            recentlyViewedUtils.saveRecentlyViewedItem(item)
         }
     }
 
