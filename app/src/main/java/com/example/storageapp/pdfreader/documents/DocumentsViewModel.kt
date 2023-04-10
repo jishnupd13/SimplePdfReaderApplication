@@ -41,17 +41,17 @@ class DocumentsViewModel:ViewModel() {
             MediaStore.Files.FileColumns.SIZE
         )
 
-  //      val pdf = MimeTypeMap.getSingleton().getMimeTypeFromExtension("pdf")
+       val pdf = MimeTypeMap.getSingleton().getMimeTypeFromExtension("pdf")
 
         val files = mutableListOf<PdfModel>()
-        val  selection = "_data LIKE '%.pdf'"
-       // val  selection = "${MediaStore.Files.FileColumns.MIME_TYPE} =?"
+       // val  selection = "_data LIKE '%.pdf'"
+        val  selection = "${MediaStore.Files.FileColumns.MIME_TYPE} = ?"
 
          context.contentResolver.query(
             collection,
             projection,
             selection,
-            null,
+            arrayOf(pdf),
             "${MediaStore.Files.FileColumns.TITLE} ASC"
         )?.use { cursor ->
             val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)

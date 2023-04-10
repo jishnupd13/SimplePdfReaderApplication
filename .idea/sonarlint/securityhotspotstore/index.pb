@@ -3,28 +3,20 @@
 \app/src/main/java/com/example/storageapp/internalstorage/models/InternalStorageImageModel.kt,a/6/a649a4d1a8099d5b1c1afe4ddf3777fae01d164c
 x
 Happ/src/main/java/com/example/storageapp/internalstorage/MainActivity.kt,5/f/5fc82448a6a19dd5fe2f58e62fccc66bf1d4ecbb
-P
- app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
 s
 Capp/src/main/java/com/example/storageapp/utils/StatusBarDelegate.kt,4/2/4213674a16c8a14a6e8b1a65ad9c705987f72ecd
-ã
-[app/src/main/java/com/example/storageapp/pdfreader/permissioninfo/PermissionInfoFragment.kt,5/c/5c535a3623b0a1b2c837c5a64657092716c7f5a8
 |
 Lapp/src/main/java/com/example/storageapp/pdfreader/splash/SplashViewModel.kt,5/f/5f96a47b9d84486f6224891daae932faa65f91ca
 q
 Aapp/src/main/java/com/example/storageapp/utils/PreferenceUtils.kt,f/7/f74974a31d54837446590dd77189afacabee5bea
 o
 ?app/src/main/java/com/example/storageapp/utils/BookMarkUtils.kt,a/1/a1d88d9bbf5069167bb369dcb6e35ea6e3900f3c
-{
-Kapp/src/main/java/com/example/storageapp/pdfreader/splash/SplashFragment.kt,0/d/0dd1855702df4f17b0474c49ec29718f565cf608
 å
 \app/src/main/java/com/example/storageapp/pdfreader/recentlyviewed/RecentlyViewedViewModel.kt,5/b/5b87fd6b7b10acb6e3c947d0232851f20305abc7
 g
 7app/src/main/java/com/example/storageapp/utils/Utils.kt,d/4/d495599e403dc567e3600a0138d8d950ebf3d205
 |
 Lapp/src/main/java/com/example/storageapp/pdfreader/search/SearchViewModel.kt,f/7/f7a9761ea0433e462ef0db8bede39cc8a655143f
-Ç
-Rapp/src/main/java/com/example/storageapp/pdfreader/documents/DocumentsViewModel.kt,8/8/88fc4503968899e147c0410a85ef2cb67c292fb2
 F
 app/proguard-rules.pro,9/e/9e08934d811afe28fbc77aaa3c0d747b94348db9
 ?
@@ -37,8 +29,6 @@ j
 app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164
 u
 Eapp/src/main/java/com/example/storageapp/pdfreader/models/PdfModel.kt,e/9/e9cabc41b37908031eb367ed1d66ba4347f28474
-Å
-Qapp/src/main/java/com/example/storageapp/pdfreader/documents/DocumentsFragment.kt,8/f/8f3886fa9368923e10c7059494cc8a180b97f6ed
 w
 Gapp/src/main/java/com/example/storageapp/pdfreader/home/HomeFragment.kt,8/1/81105fb2631900169ac30f0daf00a96c5897596a
 Å
