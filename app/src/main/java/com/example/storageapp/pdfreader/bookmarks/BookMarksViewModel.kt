@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.storageapp.pdfreader.models.PdfModel
 import com.example.storageapp.sdk29AndUp
 import com.example.storageapp.utils.BookMarkUtils
+import com.example.storageapp.utils.PdfUtils
 import kotlinx.coroutines.launch
 
 class BookMarksViewModel:ViewModel() {
@@ -60,12 +61,15 @@ class BookMarksViewModel:ViewModel() {
                     id
                 ).build()
 
+                val thumbnail =  PdfUtils.pdfToBitmap(contentUri,context)
+
                 files.add(PdfModel(
                     id = id,
                     name = displayName,
                     fileSize = size,
                     createdAt =  createdAt,
-                    contentUri = contentUri
+                    contentUri = contentUri,
+                    pdfPreview = thumbnail
                 ))
             }
             files.toList()

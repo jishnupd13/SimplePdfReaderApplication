@@ -7,6 +7,7 @@ import android.graphics.pdf.PdfRenderer
 import android.net.Uri
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
+import android.util.Log
 import java.io.File
 
 
@@ -30,6 +31,7 @@ object PdfUtils {
             }
 
         }catch (e:Exception){
+            Log.e("error","${e.message}")
             e.printStackTrace()
         }
         return bitmap

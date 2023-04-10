@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
+import com.bumptech.glide.Glide
+import com.example.storageapp.R
 import com.example.storageapp.databinding.CellSearchItemBinding
 import com.example.storageapp.pdfreader.models.PdfModel
 import com.example.storageapp.round
@@ -37,6 +39,12 @@ class SearchAdapter(val onItemClick:(item:PdfModel)->Unit) : Adapter<SearchAdapt
             val fileSizeInMb = (fileSizeInKb/1024f)
             val fileSize = if(fileSizeInMb>=1) "${fileSizeInMb.round()} MB" else "${fileSizeInKb.round()} kB"
             textFileSizeAndDate.text = "${epochToIso8601(item.createdAt.toLong())} - $fileSize"
+
+            Glide.with(root.context)
+                .load(item.pdfPreview)
+                .error(R.drawable.ic_pdf)
+                .placeholder(R.drawable.ic_pdf)
+                .into(imgPdf)
         }
     }
 
@@ -55,5 +63,6 @@ class SearchAdapter(val onItemClick:(item:PdfModel)->Unit) : Adapter<SearchAdapt
         holder.binding.root.setOnClickListener {
             onItemClick(item)
         }
+
     }
 }

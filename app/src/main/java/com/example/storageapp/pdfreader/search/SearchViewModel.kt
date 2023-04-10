@@ -6,6 +6,7 @@ import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import com.example.storageapp.pdfreader.models.PdfModel
 import com.example.storageapp.sdk29AndUp
+import com.example.storageapp.utils.PdfUtils
 import kotlinx.coroutines.flow.flow
 
 class SearchViewModel : ViewModel() {
@@ -48,12 +49,15 @@ class SearchViewModel : ViewModel() {
                     id
                 ).build()
 
+                val preview =  PdfUtils.pdfToBitmap(contentUri,context)
+
                 files.add(PdfModel(
                     id = id,
                     name = displayName,
                     fileSize = size,
                     createdAt =  createdAt,
-                    contentUri = contentUri
+                    contentUri = contentUri,
+                    pdfPreview = preview
                 ))
             }
             files.toList()

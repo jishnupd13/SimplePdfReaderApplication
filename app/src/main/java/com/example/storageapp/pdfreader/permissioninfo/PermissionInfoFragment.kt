@@ -4,18 +4,23 @@ import android.app.Dialog
 import android.content.Intent
 import android.content.Intent.*
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.storageapp.BuildConfig
 import com.example.storageapp.R
 import com.example.storageapp.databinding.AlertOpenSettingsPermissionBinding
 import com.example.storageapp.databinding.FragmentPermissionInfoBinding
@@ -37,6 +42,13 @@ class PermissionInfoFragment : Fragment(R.layout.fragment_permission_info) {
              viewModel.checkPermissionNeeded(requireContext())
          }
      }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    val storagePermissionResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (Environment.isExternalStorageManager()) {
+            findNavController().navigate(PermissionInfoFragmentDirections.actionPermissionInfoFragmentToHomeFragment())
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -91,11 +103,24 @@ class PermissionInfoFragment : Fragment(R.layout.fragment_permission_info) {
 
     private fun observeReadAndWritePermissionLiveData(){
         viewModel.permissionLiveDate.observe(viewLifecycleOwner){
-            if(it.isEmpty()){
-                findNavController().navigate(PermissionInfoFragmentDirections.actionPermissionInfoFragmentToHomeFragment())
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+                try {
+                    val uri = Uri.parse("package:" + BuildConfig.APPLICATION_ID)
+                    val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, uri)
+                    storagePermissionResultLauncher.launch(intent)
+                } catch (ex: Exception) {
+                    val intent = Intent()
+                    intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+                    storagePermissionResultLauncher.launch(intent)
+                }
             }else{
-                permissionsLauncher.launch(it.toTypedArray())
+                if(it.isEmpty()){
+                    findNavController().navigate(PermissionInfoFragmentDirections.actionPermissionInfoFragmentToHomeFragment())
+                }else{
+                    permissionsLauncher.launch(it.toTypedArray())
+                }
             }
+
         }
     }
 

@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.storageapp.R
 import com.example.storageapp.databinding.CellRecentlyViewedItemBinding
 import com.example.storageapp.hide
 import com.example.storageapp.pdfreader.models.PdfModel
@@ -47,6 +50,12 @@ class RecentlyViewedAdapter(val onItemClick:(item:PdfModel)->Unit): Adapter<Rece
                 layoutFileDoesNotExists.show()
                 root.isEnabled = false
             }
+
+            Glide.with(root.context)
+                .load(item.pdfPreview)
+                .error(R.drawable.ic_pdf)
+                .placeholder(R.drawable.ic_pdf)
+                .into(imgPdf)
         }
 
         private fun checkFileExists(uri:Uri,context:Context):Boolean{

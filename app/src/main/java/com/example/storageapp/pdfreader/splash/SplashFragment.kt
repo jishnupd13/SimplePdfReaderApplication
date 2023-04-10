@@ -1,6 +1,8 @@
 package com.example.storageapp.pdfreader.splash
 
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
@@ -53,7 +55,15 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
             }
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-                viewModel.checkPermissionNeeded(requireContext())
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+                    if (Environment.isExternalStorageManager()){
+                        findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
+                    }else{
+                        findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToPermissionInfoFragment())
+                    }
+                }else{
+                    viewModel.checkPermissionNeeded(requireContext())
+                }
             }
 
             override fun onTransitionTrigger(

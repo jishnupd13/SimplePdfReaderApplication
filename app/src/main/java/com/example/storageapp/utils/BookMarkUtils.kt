@@ -1,8 +1,15 @@
 package com.example.storageapp.utils
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.util.Base64
 import android.util.Log
-import com.google.gson.Gson
+import com.google.gson.*
 import com.google.gson.reflect.TypeToken
+import java.io.ByteArrayOutputStream
+import java.lang.reflect.Type
+
 
 typealias bookMarkIdList = ArrayList<Long>
 
@@ -27,7 +34,7 @@ class BookMarkUtils {
         val currentList = fetchBookMarkIdList()
         if(!currentList.contains(id)){
             currentList.add(id)
-            val gson = Gson()
+            val gson =  Gson()
             val json: String = gson.toJson(currentList)
             PreferenceUtils.saveBookMarkIds(json)
         }
@@ -42,4 +49,6 @@ class BookMarkUtils {
             PreferenceUtils.saveBookMarkIds(json)
         }
     }
+
+
 }
