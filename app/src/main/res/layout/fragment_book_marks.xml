@@ -19,4 +19,62 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutPdfNoFilesFound"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/colorLightGrey"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/targetAnimationObject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <ImageView
+                android:id="@+id/imgPdf"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:contentDescription="@string/no_bookmarks_yet"
+                android:src="@drawable/ic_pdf"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textNoFilesFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="14dp"
+                android:textSize="15sp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:text="@string/no_bookmarked_files_found"
+                android:fontFamily="@font/roboto_regular"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgPdf"
+                app:layout_constraintVertical_bias="0.0" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

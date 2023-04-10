@@ -35,4 +35,7 @@
     <string name="no_pdf_found">No Pdf found</string>
     <string name="no_files_found">No Files Found</string>
     <string name="image_bookmark">Image BookMark</string>
+    <string name="no_bookmarks_yet">No Bookmarks yet</string>
+    <string name="no_bookmarked_files_found">No Bookmarked files found</string>
+    <string name="back_button_from_the_search_page">Back button from the search page</string>
 </resources>

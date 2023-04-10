@@ -1,20 +1,17 @@
 package com.example.storageapp.pdfreader.recentlyviewed
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Adapter
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
 import com.example.storageapp.R
 import com.example.storageapp.adapters.RecentlyViewedAdapter
 import com.example.storageapp.databinding.FragmentRecentlyViewedBinding
-import com.example.storageapp.pdfreader.documents.DocumentsViewModel
+import com.example.storageapp.hide
 import com.example.storageapp.px
+import com.example.storageapp.show
 import com.example.storageapp.utils.PdfRecyclerviewItemDecorator
-import com.example.storageapp.utils.RecentlyViewedUtils
 
 
 class RecentlyViewedFragment : Fragment(R.layout.fragment_recently_viewed) {
@@ -42,7 +39,15 @@ class RecentlyViewedFragment : Fragment(R.layout.fragment_recently_viewed) {
 
     private fun observeRecentlyViewedItems(){
         viewModel.recentlyViewedLiveData.observe(viewLifecycleOwner){
-            adapter.asyncListDiffer.submitList(it)
+            if(it.isEmpty()){
+                binding.recyclerviewRecentlyViewed.hide()
+                binding.layoutPdfNoFilesFound.show()
+                binding.layoutPdfNoFilesFound.animation = AnimationUtils.loadAnimation(requireContext(),R.anim.shake_anim)
+            }else{
+                binding.recyclerviewRecentlyViewed.show()
+                binding.layoutPdfNoFilesFound.hide()
+                adapter.asyncListDiffer.submitList(it)
+            }
         }
     }
 

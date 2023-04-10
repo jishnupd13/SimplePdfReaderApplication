@@ -6,11 +6,10 @@ import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.findFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.storageapp.R
 import com.example.storageapp.databinding.FragmentHomeBinding
@@ -18,7 +17,6 @@ import com.example.storageapp.hide
 import com.example.storageapp.pdfreader.documents.DocumentsFragment
 import com.example.storageapp.show
 import com.example.storageapp.utils.*
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -67,6 +65,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         }
                     }
                 }
+            }
+
+            imageSearch.setOnClickListener {
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
             }
 
             imgDelete.setOnClickListener {

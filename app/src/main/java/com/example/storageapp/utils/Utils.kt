@@ -3,7 +3,10 @@ package com.example.storageapp
 import android.content.res.Resources
 import android.view.View
 import android.os.Build
+import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.motion.widget.MotionLayout
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
@@ -45,4 +48,20 @@ fun Float.round():String{
     val df = DecimalFormat("#.#")
     df.roundingMode = RoundingMode.CEILING
     return df.format(this)
+}
+
+ fun SearchView.getQueryTextChangeStateFlow(): StateFlow<String> {
+    val query = MutableStateFlow("")
+
+    setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return true
+        }
+        override fun onQueryTextChange(newText: String): Boolean {
+            query.value = newText
+            return true
+        }
+    })
+
+    return query
 }

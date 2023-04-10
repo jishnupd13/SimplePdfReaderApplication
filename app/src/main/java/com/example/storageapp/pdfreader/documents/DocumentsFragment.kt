@@ -190,6 +190,7 @@ class DocumentsFragment : Fragment(R.layout.fragment_documents) {
         viewModel.fetchPdfDocumentsFromExternalStorage(requireContext())
     }
 
+
     private fun incrementItemCount(){
         viewModel.itemSelectionCount.value = viewModel.itemSelectionCount.value?.plus(1)
         parent?.setSelectedItemText(viewModel.itemSelectionCount.value!!)
@@ -206,7 +207,7 @@ class DocumentsFragment : Fragment(R.layout.fragment_documents) {
     }
 
     private suspend fun deleteFiles(list: ArrayList<Uri>){
-        withContext(Dispatchers.IO) {
+        withContext( Dispatchers.IO) {
             try {
                 for (i in list){
                     requireContext().contentResolver.delete(i, null, null)
