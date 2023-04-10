@@ -12,7 +12,7 @@ import com.example.storageapp.pdfreader.models.PdfModel
 import com.example.storageapp.round
 import com.example.storageapp.utils.epochToIso8601
 
-class SearchAdapter : Adapter<SearchAdapter.SearchItemViewHolder>() {
+class SearchAdapter(val onItemClick:(item:PdfModel)->Unit) : Adapter<SearchAdapter.SearchItemViewHolder>() {
 
     private val diffUtils = object : DiffUtil.ItemCallback<PdfModel>() {
 
@@ -52,5 +52,8 @@ class SearchAdapter : Adapter<SearchAdapter.SearchItemViewHolder>() {
     override fun onBindViewHolder(holder: SearchItemViewHolder, position: Int) {
         val item = asyncListDiffer.currentList[position]
         holder.onBind(item)
+        holder.binding.root.setOnClickListener {
+            onItemClick(item)
+        }
     }
 }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.storageapp.R
 import com.example.storageapp.adapters.RecentlyViewedAdapter
 import com.example.storageapp.databinding.FragmentRecentlyViewedBinding
@@ -29,7 +30,9 @@ class RecentlyViewedFragment : Fragment(R.layout.fragment_recently_viewed) {
 
     private fun initViews(){
         binding.apply {
-            adapter = RecentlyViewedAdapter()
+            adapter = RecentlyViewedAdapter(){
+                findNavController().navigate(RecentlyViewedFragmentDirections.actionRecentlyViewedToPdfViewerFragment(it))
+            }
             recyclerviewRecentlyViewed.adapter = adapter
             recyclerviewRecentlyViewed.itemAnimator = null
             recyclerviewRecentlyViewed.addItemDecoration(PdfRecyclerviewItemDecorator(paddingTop = 14.px, paddingHorizontal = 14.px, paddingBottom = 8.px))

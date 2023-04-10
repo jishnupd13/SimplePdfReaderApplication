@@ -6,6 +6,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Adapter
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.storageapp.R
 import com.example.storageapp.adapters.BookMarkItemsAdapter
 import com.example.storageapp.databinding.FragmentBookMarksBinding
@@ -32,7 +33,9 @@ class BookMarksFragment : Fragment(R.layout.fragment_book_marks) {
 
     private fun initViews(){
         binding.apply {
-            adapter = BookMarkItemsAdapter()
+            adapter = BookMarkItemsAdapter(){
+                findNavController().navigate(BookMarksFragmentDirections.actionBookMarksToPdfViewerFragment(it))
+            }
             recyclerViewBookMarks.adapter = adapter
             recyclerViewBookMarks.addItemDecoration(PdfRecyclerviewItemDecorator(paddingTop = 14.px, paddingHorizontal = 14.px, paddingBottom = 8.px))
         }

@@ -40,7 +40,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         )
         setUpSearchStateFlow()
         binding.apply {
-            adapter = SearchAdapter()
+            adapter = SearchAdapter(){item->
+                findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToPdfViewerFragment2(item))
+            }
             recyclerviewSearch.addItemDecoration(PdfRecyclerviewItemDecorator(paddingTop = 14.px, paddingHorizontal = 14.px, paddingBottom = 8.px))
             recyclerviewSearch.itemAnimator = null
             recyclerviewSearch.adapter = adapter

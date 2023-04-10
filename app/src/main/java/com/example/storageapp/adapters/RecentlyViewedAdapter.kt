@@ -2,10 +2,8 @@ package com.example.storageapp.adapters
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.documentfile.provider.DocumentFile
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +15,7 @@ import com.example.storageapp.round
 import com.example.storageapp.show
 import com.example.storageapp.utils.epochToIso8601
 
-class RecentlyViewedAdapter: Adapter<RecentlyViewedAdapter.RecentlyViewedItemViewHolder>() {
+class RecentlyViewedAdapter(val onItemClick:(item:PdfModel)->Unit): Adapter<RecentlyViewedAdapter.RecentlyViewedItemViewHolder>() {
 
     private val diffUtils = object : DiffUtil.ItemCallback<PdfModel>() {
 
@@ -75,9 +73,9 @@ class RecentlyViewedAdapter: Adapter<RecentlyViewedAdapter.RecentlyViewedItemVie
     override fun onBindViewHolder(holder: RecentlyViewedItemViewHolder, position: Int) {
         val item = asyncListDiffer.currentList[position]
         holder.onBind(item)
-
-        val file = DocumentFile.fromSingleUri(holder.binding.root.context, item.contentUri)
-        Log.e("file pointer","$file")
+        holder.binding.root.setOnClickListener {
+            onItemClick(item)
+        }
     }
 
 

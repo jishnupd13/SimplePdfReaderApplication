@@ -176,7 +176,7 @@ class DocumentsFragment : Fragment(R.layout.fragment_documents) {
                 }
             }else{
                 recentlyViewedUtils.saveRecentlyViewedItem(item)
-                findNavController().navigate(DocumentsFragmentDirections.actionDocumentsToPdfViewerFragment())
+                findNavController().navigate(DocumentsFragmentDirections.actionDocumentsToPdfViewerFragment(item = item))
             }
 
         }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
+import com.bumptech.glide.Glide
 import com.example.storageapp.R
 import com.example.storageapp.databinding.CellPdfItemBinding
 import com.example.storageapp.hide
@@ -55,6 +56,12 @@ class PdfItemAdapter(
                 imgSelected.hide()
                 imageBookMark.show()
             }
+
+            Glide.with(root.context)
+                .load(item.pdfPreview)
+                .error(R.drawable.ic_pdf)
+                .placeholder(R.drawable.ic_pdf)
+                .into(imgPdf)
 
             if(item.isItemSelected)
                 imgSelected.setImageDrawable(ContextCompat.getDrawable(imgSelected.context, R.drawable.ic_selected))

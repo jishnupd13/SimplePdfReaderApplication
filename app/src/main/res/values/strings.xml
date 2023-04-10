@@ -40,4 +40,5 @@
     <string name="back_button_from_the_search_page">Back button from the search page</string>
     <string name="no_results_found">No Results found</string>
     <string name="file_does_not_exists">File does not exists</string>
+    <string name="back_button">Back Button</string>
 </resources>

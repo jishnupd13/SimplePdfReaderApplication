@@ -12,25 +12,43 @@
         tools:layout="@layout/fragment_documents" >
         <action
             android:id="@+id/action_documents_to_pdfViewerFragment"
-            app:destination="@id/pdfViewerFragment" />
+            app:destination="@id/pdfViewerFragment">
+
+        </action>
     </fragment>
 
     <fragment
         android:id="@+id/bookMarks"
         android:name="com.example.storageapp.pdfreader.bookmarks.BookMarksFragment"
         android:label="fragment_book_marks"
-        tools:layout="@layout/fragment_book_marks" />
+        tools:layout="@layout/fragment_book_marks" >
+        <action
+            android:id="@+id/action_bookMarks_to_pdfViewerFragment"
+            app:destination="@id/pdfViewerFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/recentlyViewed"
         android:name="com.example.storageapp.pdfreader.recentlyviewed.RecentlyViewedFragment"
         android:label="fragment_recently_viewed"
-        tools:layout="@layout/fragment_recently_viewed" />
+        tools:layout="@layout/fragment_recently_viewed" >
+        <action
+            android:id="@+id/action_recentlyViewed_to_pdfViewerFragment"
+            app:destination="@id/pdfViewerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/pdfViewerFragment"
         android:name="com.example.storageapp.pdfreader.pdfviewer.PdfViewerFragment"
         android:label="fragment_pdf_viewer"
-        tools:layout="@layout/fragment_pdf_viewer" />
+        tools:layout="@layout/fragment_pdf_viewer">
+
+        <argument
+            android:name="item"
+            app:argType="com.example.storageapp.pdfreader.models.PdfModel"
+            app:nullable="true"
+            />
+
+    </fragment>
 
 
 </navigation>

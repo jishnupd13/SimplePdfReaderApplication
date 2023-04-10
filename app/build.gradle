@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -61,5 +62,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     implementation 'androidx.fragment:fragment-ktx:1.5.6'
     implementation 'com.google.code.gson:gson:2.9.1'
+
+    //Pdf viewer android
+    implementation "com.dmitryborodin:pdfview-android:1.1.0"
 
 }

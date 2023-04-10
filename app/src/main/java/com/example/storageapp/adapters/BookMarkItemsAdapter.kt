@@ -12,7 +12,7 @@ import com.example.storageapp.pdfreader.models.PdfModel
 import com.example.storageapp.round
 import com.example.storageapp.utils.epochToIso8601
 
-class BookMarkItemsAdapter : Adapter<BookMarkItemsAdapter.BookMarkItemViewHolder>() {
+class BookMarkItemsAdapter(val onBookMarkItemClick:(item:PdfModel)->Unit) : Adapter<BookMarkItemsAdapter.BookMarkItemViewHolder>() {
 
     private val diffUtils = object : DiffUtil.ItemCallback<PdfModel>() {
 
@@ -53,5 +53,8 @@ class BookMarkItemsAdapter : Adapter<BookMarkItemsAdapter.BookMarkItemViewHolder
     override fun onBindViewHolder(holder: BookMarkItemViewHolder, position: Int) {
         val item = asyncListDiffer.currentList[position]
         holder.onBind(item)
+        holder.binding.root.setOnClickListener {
+            onBookMarkItemClick(item)
+        }
     }
 }
