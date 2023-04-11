@@ -53,7 +53,6 @@ class PermissionInfoFragment : Fragment(R.layout.fragment_permission_info) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPermissionInfoBinding.bind(view)
-        //StatusBarDelegate().showStatusBar(activity = requireActivity())
         permissionLauncher()
         observeReadAndWritePermissionLiveData()
         initViews()
@@ -137,4 +136,14 @@ class PermissionInfoFragment : Fragment(R.layout.fragment_permission_info) {
         openAppSettings()
         }
     }
+
+    //Preview of pdf files another code......
+  /*  with(context) {
+        contentResolver.openFileDescriptor(uri, "r")?.use { parcelFileDescriptor ->
+            val pdfRenderer = PdfRenderer(parcelFileDescriptor).openPage(0)
+            val bitmap = Bitmap.createBitmap(pdfRenderer.width, pdfRenderer.height, Bitmap.Config.ARGB_8888)
+            pdfRenderer.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
+            pdfRenderer.close()
+        }
+    }*/
 }

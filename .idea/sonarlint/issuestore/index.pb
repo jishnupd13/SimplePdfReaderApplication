@@ -43,3 +43,9 @@ Capp/src/main/java/com/example/storageapp/adapters/PdfItemAdapter.kt,c/1/c1faab
 Qapp/src/main/java/com/example/storageapp/pdfreader/bookmarks/BookMarksFragment.kt,1/b/1bd1fd146627cf893dd7ed41a075c35869a3276a
 ã
 [app/src/main/java/com/example/storageapp/pdfreader/recentlyviewed/RecentlyViewedFragment.kt,6/c/6c48377aa62482fde08c8cf33d36894d020ecb65
+Ç
+Rapp/src/main/java/com/example/storageapp/pdfreader/documents/DocumentsViewModel.kt,8/8/88fc4503968899e147c0410a85ef2cb67c292fb2
+Å
+Qapp/src/main/java/com/example/storageapp/pdfreader/documents/DocumentsFragment.kt,8/f/8f3886fa9368923e10c7059494cc8a180b97f6ed
+{
+Kapp/src/main/java/com/example/storageapp/pdfreader/splash/SplashFragment.kt,0/d/0dd1855702df4f17b0474c49ec29718f565cf608
